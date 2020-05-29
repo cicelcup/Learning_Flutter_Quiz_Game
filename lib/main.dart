@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'questionsBrain.dart';
+import 'question.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,34 +25,13 @@ class MyApp extends StatelessWidget {
 }
 
 class Quiz extends StatefulWidget {
+  final List<Question> questions = QuestionsBrain().questions;
   @override
   _QuizState createState() => _QuizState();
 }
 
-class Questions {
-  final String title;
-  final bool answer;
-
-  Questions(this.title, this.answer);
-}
-
 class _QuizState extends State<Quiz> {
-  static final questions = [
-    Questions("Question 1", true),
-    Questions("Question 2", false),
-    Questions("Question 3", false),
-    Questions("Question 4", true),
-    Questions("Question 5", true),
-    Questions("Question 6", true),
-    Questions("Question 7", false),
-    Questions("Question 8", false),
-    Questions("Question 9", true),
-    Questions("Question 10", true),
-    Questions("Question 11", false),
-    Questions("Question 12", true)
-  ];
   final List<Widget> score = [];
-
   var indexQuestionShowed = 0;
 
   void addOkCheck() {
@@ -72,7 +53,7 @@ class _QuizState extends State<Quiz> {
   }
 
   void checkAnswer(bool buttonValue) {
-    if (buttonValue == questions[indexQuestionShowed].answer) {
+    if (buttonValue == widget.questions[indexQuestionShowed].answer) {
       addOkCheck();
     } else {
       addWrongMark();
@@ -81,7 +62,7 @@ class _QuizState extends State<Quiz> {
   }
 
   void showNextQuestion() {
-    if (indexQuestionShowed < questions.length - 1) {
+    if (indexQuestionShowed < widget.questions.length - 1) {
       indexQuestionShowed++;
     } else {
       indexQuestionShowed = 0;
@@ -95,12 +76,18 @@ class _QuizState extends State<Quiz> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Expanded(
-          child: Center(
-            child: Text(
-              questions[indexQuestionShowed].title,
-              style: Theme.of(context).textTheme.headline5.copyWith(
-                    color: Colors.indigo[700],
-                  ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+            ),
+            child: Center(
+              child: Text(
+                widget.questions[indexQuestionShowed].title,
+                style: Theme.of(context).textTheme.headline5.copyWith(
+                      color: Colors.indigo[700],
+                    ),
+                textAlign: TextAlign.justify,
+              ),
             ),
           ),
         ),

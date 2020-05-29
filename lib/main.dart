@@ -59,6 +59,26 @@ class _QuizState extends State<Quiz> {
     widget.questionsBrain.showNextQuestion();
   }
 
+  Widget _createCustomButton(Color color, bool value) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      child: RaisedButton(
+        color: color,
+        padding: EdgeInsets.symmetric(vertical: 16.0),
+        child: Text(
+          value.toString().toUpperCase(),
+          style: Theme.of(context)
+              .textTheme
+              .subtitle1
+              .copyWith(color: Colors.grey[300]),
+        ),
+        onPressed: () {
+          setState(() => checkAnswer(value));
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -81,45 +101,15 @@ class _QuizState extends State<Quiz> {
             ),
           ),
         ),
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-          child: RaisedButton(
-            color: Colors.lightGreen,
-            padding: EdgeInsets.symmetric(vertical: 16.0),
-            child: Text(
-              "True",
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle1
-                  .copyWith(color: Colors.grey[300]),
-            ),
-            onPressed: () {
-              setState(() => checkAnswer(true));
-            },
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-          child: RaisedButton(
-            color: Colors.redAccent,
-            padding: EdgeInsets.symmetric(vertical: 16.0),
-            child: Text("False",
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1
-                    .copyWith(color: Colors.grey[300])),
-            onPressed: () {
-              setState(() => checkAnswer(false));
-            },
-          ),
-        ),
+        _createCustomButton(Colors.green, true),
+        _createCustomButton(Colors.redAccent, false),
         score.length != 0
             ? Container(
                 margin: EdgeInsets.only(
                     left: 16.0, bottom: 16.0, top: 8.0, right: 16.0),
                 child: Wrap(
                   alignment: WrapAlignment.start,
-                  spacing: 4.0,
+                  spacing: 8.0,
                   runSpacing: 8.0,
                   children: score,
                 ),

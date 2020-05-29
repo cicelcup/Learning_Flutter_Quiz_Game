@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'questionsBrain.dart';
-import 'question.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,14 +24,13 @@ class MyApp extends StatelessWidget {
 }
 
 class Quiz extends StatefulWidget {
-  final List<Question> questions = QuestionsBrain().questions;
+  final QuestionsBrain questionsBrain = QuestionsBrain();
   @override
   _QuizState createState() => _QuizState();
 }
 
 class _QuizState extends State<Quiz> {
   final List<Widget> score = [];
-  var indexQuestionShowed = 0;
 
   void addOkCheck() {
     score.add(
@@ -53,20 +51,12 @@ class _QuizState extends State<Quiz> {
   }
 
   void checkAnswer(bool buttonValue) {
-    if (buttonValue == widget.questions[indexQuestionShowed].answer) {
+    if (buttonValue == widget.questionsBrain.getAnswerOfQuestion()) {
       addOkCheck();
     } else {
       addWrongMark();
     }
-    showNextQuestion();
-  }
-
-  void showNextQuestion() {
-    if (indexQuestionShowed < widget.questions.length - 1) {
-      indexQuestionShowed++;
-    } else {
-      indexQuestionShowed = 0;
-    }
+    widget.questionsBrain.showNextQuestion();
   }
 
   @override
@@ -82,7 +72,7 @@ class _QuizState extends State<Quiz> {
             ),
             child: Center(
               child: Text(
-                widget.questions[indexQuestionShowed].title,
+                widget.questionsBrain.getQuestionTitle(),
                 style: Theme.of(context).textTheme.headline5.copyWith(
                       color: Colors.indigo[700],
                     ),

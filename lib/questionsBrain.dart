@@ -1,7 +1,7 @@
 import 'question.dart';
 
 class QuestionsBrain {
-  final questions = [
+  final _questions = [
     Question('Some cats are actually allergic to humans', true),
     Question('You can lead a cow down stairs but not up stairs.', false),
     Question('Approximately one quarter of human bones are in the feet.', true),
@@ -34,4 +34,22 @@ class QuestionsBrain {
         ' you are free to take it home to eat.',
         true),
   ];
+
+  var _indexQuestionShowed = 0;
+
+  String getQuestionTitle() {
+    return _questions[_indexQuestionShowed].title;
+  }
+
+  bool getAnswerOfQuestion() {
+    return _questions[_indexQuestionShowed].answer;
+  }
+
+  void showNextQuestion() {
+    if (_indexQuestionShowed < _questions.length - 1) {
+      _indexQuestionShowed++;
+    } else {
+      _indexQuestionShowed = 0;
+    }
+  }
 }

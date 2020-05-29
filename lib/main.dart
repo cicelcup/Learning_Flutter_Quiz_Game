@@ -27,8 +27,31 @@ class Quiz extends StatefulWidget {
   _QuizState createState() => _QuizState();
 }
 
+class Questions {
+  final String title;
+  final bool answer;
+
+  Questions(this.title, this.answer);
+}
+
 class _QuizState extends State<Quiz> {
+  static final questions = [
+    Questions("Question 1", true),
+    Questions("Question 2", false),
+    Questions("Question 3", false),
+    Questions("Question 4", true),
+    Questions("Question 5", true),
+    Questions("Question 6", true),
+    Questions("Question 7", false),
+    Questions("Question 8", false),
+    Questions("Question 9", true),
+    Questions("Question 10", true),
+    Questions("Question 11", false),
+    Questions("Question 12", true)
+  ];
   final List<Widget> score = [];
+
+  var indexQuestionShowed = 0;
 
   void addOkCheck() {
     score.add(
@@ -48,6 +71,23 @@ class _QuizState extends State<Quiz> {
     );
   }
 
+  void checkAnswer(bool buttonValue) {
+    if (buttonValue == questions[indexQuestionShowed].answer) {
+      addOkCheck();
+    } else {
+      addWrongMark();
+    }
+    showNextQuestion();
+  }
+
+  void showNextQuestion() {
+    if (indexQuestionShowed < questions.length - 1) {
+      indexQuestionShowed++;
+    } else {
+      indexQuestionShowed = 0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -57,7 +97,7 @@ class _QuizState extends State<Quiz> {
         Expanded(
           child: Center(
             child: Text(
-              "Esta es la pregunta",
+              questions[indexQuestionShowed].title,
               style: Theme.of(context).textTheme.headline5.copyWith(
                     color: Colors.indigo[700],
                   ),
@@ -77,7 +117,7 @@ class _QuizState extends State<Quiz> {
                   .copyWith(color: Colors.grey[300]),
             ),
             onPressed: () {
-              setState(() => addOkCheck());
+              setState(() => checkAnswer(true));
             },
           ),
         ),
@@ -92,7 +132,7 @@ class _QuizState extends State<Quiz> {
                     .subtitle1
                     .copyWith(color: Colors.grey[300])),
             onPressed: () {
-              setState(() => addWrongMark());
+              setState(() => checkAnswer(false));
             },
           ),
         ),

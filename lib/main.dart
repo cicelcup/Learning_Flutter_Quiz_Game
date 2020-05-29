@@ -76,7 +76,9 @@ class _QuizState extends State<Quiz> {
                   .subtitle1
                   .copyWith(color: Colors.grey[300]),
             ),
-            onPressed: () {},
+            onPressed: () {
+              setState(() => addOkCheck());
+            },
           ),
         ),
         Container(
@@ -89,7 +91,9 @@ class _QuizState extends State<Quiz> {
                     .textTheme
                     .subtitle1
                     .copyWith(color: Colors.grey[300])),
-            onPressed: () {},
+            onPressed: () {
+              setState(() => addWrongMark());
+            },
           ),
         ),
         score.length != 0

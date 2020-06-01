@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'questionsBrain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 void main() => runApp(MyApp());
 
@@ -57,6 +59,45 @@ class _QuizState extends State<Quiz> {
       addWrongMark();
     }
     widget.questionsBrain.showNextQuestion();
+
+    if (widget.questionsBrain.checkEndOfList()) {
+      showAlert();
+    }
+  }
+
+  void showAlert() {
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "Game Over",
+      desc: "You already answered all questions. Do you want to play again?",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "YES",
+            style: Theme.of(context).textTheme.subtitle2,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+            setState(() {
+              score.clear();
+            });
+          },
+          color: Colors.green,
+        ),
+        DialogButton(
+          child: Text(
+            "NO",
+            style: Theme.of(context).textTheme.subtitle2,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+            SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+          },
+          color: Colors.redAccent,
+        )
+      ],
+    ).show();
   }
 
   Widget _createCustomButton(Color color, bool value) {

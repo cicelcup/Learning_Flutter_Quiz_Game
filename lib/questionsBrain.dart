@@ -36,6 +36,7 @@ class QuestionsBrain {
   ];
 
   var _indexQuestionShowed = 0;
+  var _endListReached = false;
 
   String getQuestionTitle() {
     return _questions[_indexQuestionShowed].title;
@@ -48,8 +49,14 @@ class QuestionsBrain {
   void showNextQuestion() {
     if (_indexQuestionShowed < _questions.length - 1) {
       _indexQuestionShowed++;
+      _endListReached = false;
     } else {
       _indexQuestionShowed = 0;
+      _endListReached = true;
     }
+  }
+
+  bool checkEndOfList() {
+    return _endListReached;
   }
 }
